@@ -1,15 +1,75 @@
-import { Text, View } from "react-native";
+import React from "react";
+import { Link } from 'expo-router';
+import { Text, View, Pressable, ImageBackground, StyleSheet } from "react-native";
 
 export default function Index() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
+    <ImageBackground
+      source={require("../assets/images/Background.png")}
+      style={styles.background}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </View>
+
+      <View style={styles.overlay}>
+        <Text style={styles.title}>Leafeon</Text>
+        <Text style={styles.subtitle}>Biblioteca de plantas</Text>
+        <Text style={styles.description}>Uma janela para o universo das plantas.</Text>
+
+      <Link href="/home" asChild>
+        <Pressable style={styles.button}>
+          <Text style={styles.buttonText}>Começar</Text>
+        </Pressable>
+      </Link>
+
+        {/* <TouchableOpacity
+          style={styles.button}
+          onPress={() => router.push("/home")}
+        >
+          <Text style={styles.buttonText}>Começar</Text>
+        </TouchableOpacity> */}
+      </View>
+    </ImageBackground>
   );
 }
+
+const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  overlay: {
+    backgroundColor: "#2B5B3C",
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    paddingVertical: 40,
+    paddingHorizontal: 20,
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 32,
+    color: "#FFF",
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: "#C1E8D6",
+    marginBottom: 8,
+  },
+  description: {
+    fontSize: 16,
+    color: "#A9D7B4",
+    textAlign: "center",
+    marginBottom: 30,
+  },
+  button: {
+    backgroundColor: "#6A9F6D",
+    paddingVertical: 15,
+    paddingHorizontal: 50,
+    borderRadius: 30,
+  },
+  buttonText: {
+    fontSize: 18,
+    color: "#FFF",
+    fontWeight: "bold",
+  },
+});
