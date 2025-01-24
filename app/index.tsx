@@ -14,18 +14,11 @@ export default function Index() {
         <Text style={styles.subtitle}>Biblioteca de plantas</Text>
         <Text style={styles.description}>Uma janela para o universo das plantas.</Text>
 
-      <Link href="/home" asChild>
+      <Link href={{ pathname: "/dashboard" }} asChild>
         <Pressable style={styles.button}>
           <Text style={styles.buttonText}>Começar</Text>
         </Pressable>
       </Link>
-
-        {/* <TouchableOpacity
-          style={styles.button}
-          onPress={() => router.push("/home")}
-        >
-          <Text style={styles.buttonText}>Começar</Text>
-        </TouchableOpacity> */}
       </View>
     </ImageBackground>
   );
