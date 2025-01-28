@@ -1,20 +1,25 @@
 import React from "react";
-import { View, Text, StyleSheet, SafeAreaView, Pressable } from "react-native";
-import { Link, useRouter } from "expo-router";
+import { Text, StyleSheet, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-export default function Deashboard() {
+export default function HomeScreen() {
   const router = useRouter();
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Olá!</Text>
-      <Text style={styles.subtitle}>Todas as suas plantas catalogadas estão aqui</Text>
+    
+      <Text style={styles.title}>Bem-vindo ao Leafeon!</Text>
+      <Text style={styles.description}>
+        Capture imagens das plantas ao seu redor e descubra mais sobre elas.
+      </Text>
 
-      <Link href="/cameraScreen" asChild>
-        <Pressable style={styles.button}>
-          <Text style={styles.buttonText}>Catalogar</Text>
-        </Pressable>
-      </Link>
+      <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => router.push("/scan")}
+      >
+        <Text style={styles.buttonText}>Abrir Câmera</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 }
@@ -22,28 +27,28 @@ export default function Deashboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "rgba(144, 238, 144, 0.3)", // Verde claro com transparência
     justifyContent: "center",
     alignItems: "center",
-    padding: 20,
+    backgroundColor: "#F2F7F0",
+    paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#2F4F4F", // Cor do título
+    color: "#2B5B3C",
     marginBottom: 10,
   },
-  subtitle: {
+  description: {
     fontSize: 16,
-    color: "#2F4F4F",
-    marginBottom: 500,
+    color: "#4A7856",
+    textAlign: "center",
+    marginBottom: 40,
   },
   button: {
-    backgroundColor: "#6A9F6D", // Verde escuro
+    backgroundColor: "#6A9F6D",
     paddingVertical: 15,
     paddingHorizontal: 50,
     borderRadius: 30,
-    alignItems: "center",
   },
   buttonText: {
     fontSize: 18,
