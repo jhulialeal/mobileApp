@@ -96,7 +96,7 @@ export default function ScanScreen() {
       <CameraView style={styles.camera} facing={facing} ref={(ref) => (cameraRef.current = ref)}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
+            <Text style={styles.text}>🔄</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.captureButton} onPress={takePicture}>
             <Text style={styles.text}>📷</Text>
@@ -140,14 +140,11 @@ const styles = StyleSheet.create({
       paddingBottom: 20,
     },
     button: {
-      backgroundColor: "#6A9F6D",
       padding: 10,
       borderRadius: 5,
     },
     captureButton: {
-      backgroundColor: "white",
       padding: 10,
-      borderRadius: 50,
     },
     text: {
       fontSize: 18,
