@@ -5,7 +5,7 @@ import { Text, View, Pressable, ImageBackground, StyleSheet } from "react-native
 export default function Index() {
   return (
     <ImageBackground
-      source={require("../assets/images/Background.png")}
+      source={require("../assets/images/leafeon.png")}
       style={styles.background}
     >
 
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#2B5B3C",
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    paddingVertical: 40,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
     alignItems: "center",
   },
   title: {

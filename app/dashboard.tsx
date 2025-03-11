@@ -35,7 +35,7 @@ export default function HomeScreen() {
           style={styles.button} 
           onPress={() => router.push("/identify")}
         >
-          <Text style={styles.buttonText}>IdentifyScreen</Text>
+          <Text style={styles.buttonText}>Identificar Planta</Text>
         </TouchableOpacity>
       </View>
       </View>
@@ -65,9 +65,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   button_container: {
-    gap: 8,
-    flexDirection: "row",
-    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
   },
   button: {
     backgroundColor: "#6A9F6D",

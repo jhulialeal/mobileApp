@@ -25,7 +25,7 @@ export default function IdentifyScreen() {
   if (!permission.granted) {
     return (
       <View style={styles.container}>
-        <Text style={styles.message}>
+        <Text>
           Precisamos de permissão para acessar a câmera
         </Text>
         <TouchableOpacity onPress={requestPermission} style={styles.button}>
@@ -134,23 +134,21 @@ export default function IdentifyScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Se ainda não identificou nada, exibe a câmera */}
       {!plantData ? (
         <>
           <CameraView style={styles.camera} facing={facing} ref={(ref) => (cameraRef.current = ref)}>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-                <Text style={styles.buttonText}>Flip Camera</Text>
+                <Text style={styles.buttonText}>🔄</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.captureButton} onPress={takePictureAndIdentify}>
-                <Text style={styles.buttonText}>Identify</Text>
+                <Text style={styles.buttonText}>📷</Text>
               </TouchableOpacity>
             </View>
           </CameraView>
           {isLoading && <ActivityIndicator size="large" color="#6A9F6D" style={styles.loading} />}
         </>
       ) : (
-        // Se já identificou, mostra a foto e as infos
         <View style={styles.resultContainer}>
           {photo && <Image source={{ uri: photo }} style={styles.preview} />}
           <Text style={styles.resultTitle}>Resultado da Identificação:</Text>
@@ -168,7 +166,7 @@ export default function IdentifyScreen() {
                 {plantData.results[0].species.family?.scientificNameWithoutAuthor || "N/A"}
               </Text>
               <Text style={styles.infoText}>
-                Probabilidade: {(plantData.results[0].score * 100).toFixed(2)}%
+                Probabilidade de Acerto: {(plantData.results[0].score * 100).toFixed(2)}%
               </Text>
             </View>
           ) : (
@@ -193,25 +191,29 @@ export default function IdentifyScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  camera: { flex: 1 },
+  container: { 
+    flex: 1,
+    justifyContent: "center",
+   },
+  camera: { 
+    flex: 1,
+    justifyContent: "flex-end",
+    alignItems: "center",
+   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    padding: 20,
+    paddingBottom: 20,
   },
   button: {
-    backgroundColor: "#6A9F6D",
     padding: 10,
     borderRadius: 5,
   },
   captureButton: {
-    backgroundColor: "#FFF",
     padding: 10,
-    borderRadius: 50,
   },
-  buttonText: {
-    fontSize: 16,
+  text: {
+    fontSize: 18,
     fontWeight: "bold",
     color: "#FFF",
   },
@@ -258,5 +260,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#6A9F6D",
     padding: 10,
     borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#FFF",
+  },
+  message: {
+    fontSize: 18,
+    color: "#4A7856",
+    textAlign: "center",
   },
 });
