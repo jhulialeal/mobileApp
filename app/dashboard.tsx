@@ -30,6 +30,13 @@ export default function HomeScreen() {
         >
           <Text style={styles.buttonText}>Abrir sua galeria</Text>
         </TouchableOpacity>
+
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => router.push("/identify")}
+        >
+          <Text style={styles.buttonText}>IdentifyScreen</Text>
+        </TouchableOpacity>
       </View>
       </View>
     </SafeAreaView>

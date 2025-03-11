@@ -8,6 +8,7 @@ export default function Layout() {
       <Stack.Screen name="dashboard" options={{ headerShown: false, title: 'Home' }} />
       <Stack.Screen name="scan" options={{ headerShown: false, title: 'cameraScreen' }} />
       <Stack.Screen name="gallery" options={{ headerShown: false, title: 'Gallery' }} />
+      <Stack.Screen name="identify" options={{ headerShown: false, title: 'Identify' }} />
 
     </Stack>
   );
