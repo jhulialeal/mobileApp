@@ -184,6 +184,13 @@ export default function GalleryScreen() {
         <Text style={styles.buttonText}>📷 Nova Foto</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity 
+        style={styles.captureButton} 
+        onPress={() => router.push("/identify")}
+      >
+        <Text style={styles.buttonText}>📷 Nova Identificação</Text>
+      </TouchableOpacity>
+
       {/* MODAL DE EDIÇÃO */}
       <Modal
         visible={isModalVisible}
