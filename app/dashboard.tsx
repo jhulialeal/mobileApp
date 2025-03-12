@@ -18,24 +18,25 @@ export default function HomeScreen() {
         style={styles.button_container}
       >
         <TouchableOpacity 
-          style={styles.button} 
+          style={styles.buttonScan} 
           onPress={() => router.push("/scan")}
         >
           <Text style={styles.buttonText}>Abrir Câmera</Text>
         </TouchableOpacity>
 
         <TouchableOpacity 
-          style={styles.button} 
-          onPress={() => router.push("/gallery")}
-        >
-          <Text style={styles.buttonText}>Abrir sua galeria</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity 
-          style={styles.button} 
+          style={styles.buttonIdentify} 
           onPress={() => router.push("/identify")}
         >
           <Text style={styles.buttonText}>Identificar Planta</Text>
+        </TouchableOpacity>
+
+
+        <TouchableOpacity 
+          style={styles.buttonGale} 
+          onPress={() => router.push("/gallery")}
+        >
+          <Text style={styles.buttonText}>Abrir sua galeria</Text>
         </TouchableOpacity>
       </View>
       </View>
@@ -68,10 +69,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  button: {
-    backgroundColor: "#6A9F6D",
+  buttonScan: {
+    backgroundColor: "#12664F",
     paddingVertical: 14,
     paddingHorizontal: 24,
+    borderRadius: 30,
+    marginBottom: 20,
+    flexDirection: "row",
+  },
+  buttonIdentify: {
+    backgroundColor: "#12664F",
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderRadius: 30,
+    marginBottom: 20,
+    flexDirection: "row",
+  },
+  buttonGale: {
+    backgroundColor:"#12664F",
+    paddingVertical: 14,
+    paddingHorizontal: 14,
     borderRadius: 30,
     marginBottom: 20,
     flexDirection: "row",

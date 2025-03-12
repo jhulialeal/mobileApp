@@ -1,17 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { 
-  SafeAreaView, 
-  Text, 
-  Image, 
-  TouchableOpacity, 
-  FlatList, 
-  StyleSheet, 
-  Alert, 
-  View,
-  Modal,
-  TextInput,
-  KeyboardAvoidingView
-} from "react-native";
+import { SafeAreaView, Text, Image, TouchableOpacity, FlatList, StyleSheet, Alert, View, Modal, TextInput, KeyboardAvoidingView } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -176,20 +164,21 @@ export default function GalleryScreen() {
         )}
       />
 
-      {/* BOTÃO DE NOVA FOTO */}
-      <TouchableOpacity 
-        style={styles.captureButton} 
-        onPress={() => router.push("/scan")}
-      >
-        <Text style={styles.buttonText}>📷 Nova Foto</Text>
-      </TouchableOpacity>
+        <View style={styles.captureButton}>
+          <TouchableOpacity 
+            style={styles.captureButtonOne} 
+            onPress={() => router.push("/scan")}
+          >
+            <Text style={styles.buttonText}>Nova Foto</Text>
+          </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={styles.captureButton} 
-        onPress={() => router.push("/identify")}
-      >
-        <Text style={styles.buttonText}>📷 Nova Identificação</Text>
-      </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.captureButtonTwo} 
+            onPress={() => router.push("/identify")}
+          >
+            <Text style={styles.buttonText}>Nova Identificação</Text>
+          </TouchableOpacity>
+        </View>
 
       {/* MODAL DE EDIÇÃO */}
       <Modal
@@ -262,7 +251,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   homeButton: {
-    backgroundColor: '#6A9F6D',
+    backgroundColor: '#12664F',
     borderRadius: 10,
     padding: 11,
   },
@@ -283,6 +272,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 3,
+  },
+  botoesScan: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   searchInput: {
     fontSize: 16,
@@ -327,15 +321,30 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
-  
   captureButton: {
-    backgroundColor: "#6A9F6D",
+    paddingHorizontal: 30,
+    justifyContent: 'space-between',
+    borderRadius: 30,
+    flexDirection: 'row',
+    marginVertical: 20,
+  },
+  captureButtonOne: {
+    backgroundColor: "#12664F",
     paddingVertical: 15,
-    paddingHorizontal: 50,
+    paddingHorizontal: 20,
     borderRadius: 30,
     alignSelf: "center",
     marginVertical: 20,
   },
+  captureButtonTwo: {
+    backgroundColor: "#12664F",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 30,
+    alignSelf: "center",
+    marginVertical: 20,
+  },
+
   buttonText: {
     fontSize: 18,
     color: "#FFF",
@@ -345,7 +354,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: 'rgba(25, 25, 25, 0.7)',
   },
   modalContent: {
     backgroundColor: '#FFF',
@@ -385,7 +394,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
   },
   modalButtonText: {
-    color: '#FFF',
+    color: '#000',
     fontSize: 15,
   },
   saveButtonText: {
