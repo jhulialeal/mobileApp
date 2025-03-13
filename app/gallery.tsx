@@ -183,13 +183,13 @@ export default function GalleryScreen() {
                 style={[styles.actionButton]} 
                 onPress={() => handleEdit(item.id)}
               >
-                <Text style={styles.actionButtonText}>✏️</Text>
+                <Text>✏️</Text>
               </TouchableOpacity>
               <TouchableOpacity 
                 style={[styles.actionButton]} 
                 onPress={() => deletePlant(item.id)}
               >
-                <Text style={styles.actionButtonText}>🗑</Text>
+                <Text>🗑</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
   },
   modalButtonText: {
-    color: '#FFF',
+    color: '#000',
     fontSize: 16,
   },
   saveButtonText: {
