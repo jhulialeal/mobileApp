@@ -31,14 +31,13 @@ export default function GalleryScreen() {
   const [editedName, setEditedName] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
 
-  // Carregar plantas do AsyncStorage
+  
   useEffect(() => {
     async function loadPlants() {
       try {
         const storedPlants = await AsyncStorage.getItem("plants");
         if (storedPlants) {
           const parsedPlants: Plant[] = JSON.parse(storedPlants);
-          // Garantir que todas as plantas tenham IDs únicos
           const plantsWithIds = parsedPlants.map(plant => ({
             ...plant,
             id: plant.id || generateUniqueId(),
@@ -52,16 +51,14 @@ export default function GalleryScreen() {
     loadPlants();
   }, []);
 
-  // Função para gerar IDs únicos
   const generateUniqueId = () => Date.now().toString() + Math.random().toString(36).substr(2, 9);
 
-  // Filtro de busca
   const filteredPlants = plants.filter(plant => 
     plant.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     plant.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Excluir planta
+
   const deletePlant = async (id: string) => {
     Alert.alert(
       "Confirmar exclusão",
@@ -84,7 +81,7 @@ export default function GalleryScreen() {
     );
   };
 
-  // Abrir modal de edição
+  
   const handleEdit = (id: string) => {
     const plant = plants.find(p => p.id === id);
     if (plant) {
@@ -95,7 +92,7 @@ export default function GalleryScreen() {
     }
   };
 
-  // Salvar edições
+  
   const handleSave = async () => {
     if (!editedName.trim() || !editedDescription.trim()) {
       Alert.alert("Erro", "Preencha todos os campos");
@@ -120,10 +117,9 @@ export default function GalleryScreen() {
     }
   };
 
-  // Adicionar nova planta (usado pela câmera de identificação)
   const addPlant = async (uri: string, name: string, description: string) => {
     const newPlant: Plant = {
-      id: generateUniqueId(), // Garante ID único
+      id: generateUniqueId(), 
       uri,
       name,
       description,
