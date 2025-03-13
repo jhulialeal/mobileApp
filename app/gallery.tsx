@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text, Image, TouchableOpacity, FlatList, StyleSheet, Alert, View, Modal, TextInput, KeyboardAvoidingView } from "react-native";
+import { 
+  SafeAreaView, 
+  Text, 
+  Image, 
+  TouchableOpacity, 
+  FlatList, 
+  StyleSheet, 
+  Alert, 
+  View,
+  Modal,
+  TextInput,
+  KeyboardAvoidingView
+} from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -19,15 +31,17 @@ export default function GalleryScreen() {
   const [editedName, setEditedName] = useState('');
   const [editedDescription, setEditedDescription] = useState('');
 
+  // Carregar plantas do AsyncStorage
   useEffect(() => {
     async function loadPlants() {
       try {
         const storedPlants = await AsyncStorage.getItem("plants");
         if (storedPlants) {
           const parsedPlants: Plant[] = JSON.parse(storedPlants);
+          // Garantir que todas as plantas tenham IDs únicos
           const plantsWithIds = parsedPlants.map(plant => ({
             ...plant,
-            id: plant.id || Date.now().toString()
+            id: plant.id || generateUniqueId(),
           }));
           setPlants(plantsWithIds);
         }
@@ -38,11 +52,16 @@ export default function GalleryScreen() {
     loadPlants();
   }, []);
 
+  // Função para gerar IDs únicos
+  const generateUniqueId = () => Date.now().toString() + Math.random().toString(36).substr(2, 9);
+
+  // Filtro de busca
   const filteredPlants = plants.filter(plant => 
     plant.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
     plant.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Excluir planta
   const deletePlant = async (id: string) => {
     Alert.alert(
       "Confirmar exclusão",
@@ -65,6 +84,7 @@ export default function GalleryScreen() {
     );
   };
 
+  // Abrir modal de edição
   const handleEdit = (id: string) => {
     const plant = plants.find(p => p.id === id);
     if (plant) {
@@ -75,6 +95,7 @@ export default function GalleryScreen() {
     }
   };
 
+  // Salvar edições
   const handleSave = async () => {
     if (!editedName.trim() || !editedDescription.trim()) {
       Alert.alert("Erro", "Preencha todos os campos");
@@ -89,7 +110,6 @@ export default function GalleryScreen() {
           description: editedDescription,
         } : plant
       );
-      
       setPlants(updatedPlants);
       await AsyncStorage.setItem("plants", JSON.stringify(updatedPlants));
       setIsModalVisible(false);
@@ -97,6 +117,24 @@ export default function GalleryScreen() {
     } catch (error) {
       console.error("Erro ao atualizar planta:", error);
       Alert.alert("Erro", "Ocorreu um erro ao atualizar");
+    }
+  };
+
+  // Adicionar nova planta (usado pela câmera de identificação)
+  const addPlant = async (uri: string, name: string, description: string) => {
+    const newPlant: Plant = {
+      id: generateUniqueId(), // Garante ID único
+      uri,
+      name,
+      description,
+    };
+
+    try {
+      const updatedPlants = [...plants, newPlant];
+      setPlants(updatedPlants);
+      await AsyncStorage.setItem("plants", JSON.stringify(updatedPlants));
+    } catch (error) {
+      console.error("Erro ao adicionar planta:", error);
     }
   };
 
@@ -144,7 +182,6 @@ export default function GalleryScreen() {
             />
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.description}>{item.description}</Text>
-
             <View style={styles.buttonContainer}>
               <TouchableOpacity 
                 style={[styles.actionButton]} 
@@ -152,7 +189,6 @@ export default function GalleryScreen() {
               >
                 <Text style={styles.actionButtonText}>✏️</Text>
               </TouchableOpacity>
-
               <TouchableOpacity 
                 style={[styles.actionButton]} 
                 onPress={() => deletePlant(item.id)}
@@ -164,21 +200,21 @@ export default function GalleryScreen() {
         )}
       />
 
-        <View style={styles.captureButton}>
-          <TouchableOpacity 
-            style={styles.captureButtonOne} 
-            onPress={() => router.push("/scan")}
-          >
-            <Text style={styles.buttonText}>Nova Foto</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.captureButtonTwo} 
-            onPress={() => router.push("/identify")}
-          >
-            <Text style={styles.buttonText}>Nova Identificação</Text>
-          </TouchableOpacity>
-        </View>
+      {/* BOTÕES DE NOVA FOTO E IDENTIFICAÇÃO */}
+      <View style={styles.captureButtonContainer}>
+        <TouchableOpacity 
+          style={styles.captureButton} 
+          onPress={() => router.push("/scan")}
+        >
+          <Text style={styles.buttonText}>Nova Foto</Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={styles.captureButton} 
+          onPress={() => router.push("/identify")}
+        >
+          <Text style={styles.buttonText}>Nova Identificação</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* MODAL DE EDIÇÃO */}
       <Modal
@@ -193,7 +229,6 @@ export default function GalleryScreen() {
         >
           <View style={styles.modalContent}>
             <Text style={styles.modalTitle}>Editar Planta</Text>
-            
             <TextInput
               style={styles.input}
               placeholder="Nome da planta"
@@ -201,7 +236,6 @@ export default function GalleryScreen() {
               onChangeText={setEditedName}
               autoFocus={true}
             />
-            
             <TextInput
               style={[styles.input, styles.descriptionInput]}
               placeholder="Descrição"
@@ -209,7 +243,6 @@ export default function GalleryScreen() {
               onChangeText={setEditedDescription}
               multiline
             />
-            
             <View style={styles.modalButtons}>
               <TouchableOpacity 
                 style={styles.modalButton}
@@ -217,7 +250,6 @@ export default function GalleryScreen() {
               >
                 <Text style={styles.modalButtonText}>Cancelar</Text>
               </TouchableOpacity>
-              
               <TouchableOpacity 
                 style={[styles.modalButton, styles.saveButton]}
                 onPress={handleSave}
@@ -253,10 +285,10 @@ const styles = StyleSheet.create({
   homeButton: {
     backgroundColor: '#12664F',
     borderRadius: 10,
-    padding: 11,
+    padding: 10,
   },
   title: {
-    fontSize: 27,
+    fontSize: 24,
     fontWeight: 'bold',
     color: '#2B5B3C',
   },
@@ -272,11 +304,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     elevation: 3,
-  },
-  botoesScan: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
   },
   searchInput: {
     fontSize: 16,
@@ -321,30 +348,17 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 8,
   },
-  captureButton: {
-    paddingHorizontal: 30,
-    justifyContent: 'space-between',
-    borderRadius: 30,
+  captureButtonContainer: {
     flexDirection: 'row',
-    marginVertical: 20,
+    justifyContent: 'space-around',
+    marginBottom: 20,
   },
-  captureButtonOne: {
+  captureButton: {
     backgroundColor: "#12664F",
     paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingHorizontal: 27,
     borderRadius: 30,
-    alignSelf: "center",
-    marginVertical: 20,
   },
-  captureButtonTwo: {
-    backgroundColor: "#12664F",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 30,
-    alignSelf: "center",
-    marginVertical: 20,
-  },
-
   buttonText: {
     fontSize: 18,
     color: "#FFF",
@@ -354,7 +368,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(25, 25, 25, 0.7)',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   modalContent: {
     backgroundColor: '#FFF',
@@ -377,25 +391,25 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   descriptionInput: {
-    height: 40,
+    height: 80,
     textAlignVertical: 'top',
   },
   modalButtons: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: 5,
+    marginTop: 20,
   },
   modalButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
     borderRadius: 5,
   },
   saveButton: {
     backgroundColor: '#4CAF50',
   },
   modalButtonText: {
-    color: '#000',
-    fontSize: 15,
+    color: '#FFF',
+    fontSize: 16,
   },
   saveButtonText: {
     color: '#FFF',
